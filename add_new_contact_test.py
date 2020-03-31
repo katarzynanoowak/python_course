@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from selenium.webdriver.support.ui import Select
 import unittest
+from primarydetails import PrimaryDetails
+from secondarydetails import SecondaryDetails
 
 
 class TestAddNewContact(unittest.TestCase):
@@ -9,58 +10,82 @@ class TestAddNewContact(unittest.TestCase):
         self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(30)
 
-    def test_add_new_contact(self):
-        wd = self.wd
+    def open_page(self, wd):
         wd.get("http://localhost/addressbook/addressbook/group.php")
-        wd.find_element_by_name("user").send_keys("admin")
-        wd.find_element_by_name("pass").send_keys("secret")
+
+    def login(self, wd, username, password):
+        wd.find_element_by_name("user").send_keys(username)
+        wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//input[@value='LOGIN']").click()
+
+    def open_add_new(self, wd):
         wd.find_element_by_link_text("ADD_NEW").click()
-        wd.find_element_by_name("firstname").send_keys("first name")
-        wd.find_element_by_name("middlename").send_keys("middle name")
-        wd.find_element_by_name("lastname").send_keys("lastname")
-        wd.find_element_by_name("nickname").send_keys("nickname")
-        # wd.find_element_by_name("photo").click()
-        # wd.find_element_by_name("photo").clear()
-        # wd.find_element_by_name("photo").send_keys("C:\\fakepath\\a1.png")
-        wd.find_element_by_name("title").send_keys("title")
-        wd.find_element_by_name("company").send_keys("company")
-        wd.find_element_by_name("address").send_keys("addres")
-        wd.find_element_by_name("home").send_keys("12345678")
-        wd.find_element_by_name("mobile").send_keys("123456789")
-        wd.find_element_by_name("work").send_keys("12345678910")
-        wd.find_element_by_name("fax").send_keys("12345678911")
-        wd.find_element_by_name("email").send_keys("email@email.com")
-        wd.find_element_by_name("email2").send_keys("email2@email.com")
-        wd.find_element_by_name("email3").send_keys("email3@email.com")
-        wd.find_element_by_name("homepage").send_keys("www.homepage.com")
-        wd.find_element_by_name("bday").click()
-        Select(wd.find_element_by_name("bday")).select_by_visible_text("12")
+
+    def fill_primary_details(self, wd, primarydetails):
+        wd.find_element_by_name("firstname").send_keys(primarydetails.firstname)
+        wd.find_element_by_name("middlename").send_keys(primarydetails.middlename)
+        wd.find_element_by_name("lastname").send_keys(primarydetails.lastname)
+        wd.find_element_by_name("nickname").send_keys(primarydetails.nickname)
+        wd.find_element_by_name("title").send_keys(primarydetails.title)
+        wd.find_element_by_name("company").send_keys(primarydetails.company)
+        wd.find_element_by_name("address").send_keys(primarydetails.address1)
+        wd.find_element_by_name("home").send_keys(primarydetails.telhome)
+        wd.find_element_by_name("mobile").send_keys(primarydetails.mobile)
+        wd.find_element_by_name("work").send_keys(primarydetails.telwork)
+        wd.find_element_by_name("fax").send_keys(primarydetails.fax)
+        wd.find_element_by_name("email").send_keys(primarydetails.email1)
+        wd.find_element_by_name("email2").send_keys(primarydetails.email2)
+        wd.find_element_by_name("email3").send_keys(primarydetails.email3)
+        wd.find_element_by_name("homepage").send_keys(primarydetails.homepage)
+
+    def upload_photo(self, wd):
+        elm = wd.find_element_by_name("photo")
+        elm.send_keys("C:\\Users\\katarzyna.nowak\\Desktop\\a1.png")
+
+    def fill_secondary_details(self, wd, secondarydetails):
+        wd.find_element_by_name("address2").send_keys(secondarydetails.address2)
+        wd.find_element_by_name("phone2").send_keys(secondarydetails.telhome2)
+        wd.find_element_by_name("notes").send_keys(secondarydetails.notes)
+
+    def birthday_date(self, wd):
         wd.find_element_by_xpath("//option[@value='12']").click()
-        wd.find_element_by_name("bmonth").click()
-        Select(wd.find_element_by_name("bmonth")).select_by_visible_text("MARCH")
         wd.find_element_by_xpath("//option[@value='March']").click()
-        wd.find_element_by_name("byear").click()
-        wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys("1990")
-        wd.find_element_by_name("aday").click()
-        Select(wd.find_element_by_name("aday")).select_by_visible_text("18")
+
+    def aniversary_date(self, wd):
         wd.find_element_by_xpath("(//option[@value='18'])[2]").click()
-        wd.find_element_by_name("amonth").click()
-        Select(wd.find_element_by_name("amonth")).select_by_visible_text("DECEMBER")
         wd.find_element_by_xpath("(//option[@value='December'])[2]").click()
-        wd.find_element_by_name("ayear").click()
-        wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys("2019")
+
+    def select_group(self, wd):
         wd.find_element_by_name("new_group").click()
         wd.find_element_by_xpath("//option[@value='[none]']").click()
-        wd.find_element_by_name("address2").send_keys("address2")
-        wd.find_element_by_name("phone2").send_keys("987654321")
-        wd.find_element_by_name("notes").send_keys("notes")
-        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+
+    def submit(self, wd):
+            wd.find_element_by_name("submit").click()
+
+    def return_to_homepage(self, wd):
         wd.find_element_by_link_text("home page").click()
+
+    def logout(self, wd):
         wd.find_element_by_link_text("LOGOUT").click()
-    
+
+    def test_add_new_contact(self):
+        wd = self.wd
+        self.open_page(wd)
+        self.login(wd, username="admin", password="secret")
+        self.open_add_new(wd)
+        self.upload_photo(wd)
+        self.fill_primary_details(wd, PrimaryDetails(firstname="firstname12", middlename="middlename", lastname="lastname", nickname="nickname", title="tilte", company="company", address1="address1", telhome="telhome", mobile="mobile", telwork="telwork", fax="fax", email1="email1", email2="email2", email3="email3", homepage="www.homepage.com"))
+        self.birthday_date(wd)
+        self.aniversary_date(wd)
+        self.select_group(wd)
+        self.fill_secondary_details(wd, SecondaryDetails(address2="address2", telhome2="telhome2", notes="notes"))
+        self.submit(wd)
+        self.return_to_homepage(wd)
+        self.logout(wd)
+
+
     def tearDown(self):
         self.wd.quit()
 
