@@ -40,19 +40,19 @@ class TestAddNewContact(unittest.TestCase):
 
     def upload_photo(self, wd):
         elm = wd.find_element_by_name("photo")
-        elm.send_keys("C:\\Users\\katarzyna.nowak\\Desktop\\a1.png")
+        elm.send_keys("C:\\Users\\katarzyna.nowak\\Desktop\\cat.png")
 
     def fill_secondary_details(self, wd, secondarydetails):
         wd.find_element_by_name("address2").send_keys(secondarydetails.address2)
         wd.find_element_by_name("phone2").send_keys(secondarydetails.telhome2)
         wd.find_element_by_name("notes").send_keys(secondarydetails.notes)
 
-    def birthday_date(self, wd):
+    def set_birthday_date(self, wd):
         wd.find_element_by_xpath("//option[@value='12']").click()
         wd.find_element_by_xpath("//option[@value='March']").click()
         wd.find_element_by_name("byear").send_keys("1990")
 
-    def aniversary_date(self, wd):
+    def set_aniversary_date(self, wd):
         wd.find_element_by_xpath("(//option[@value='18'])[2]").click()
         wd.find_element_by_xpath("(//option[@value='December'])[2]").click()
         wd.find_element_by_name("ayear").send_keys("2019")
@@ -76,15 +76,18 @@ class TestAddNewContact(unittest.TestCase):
         self.login(wd, username="admin", password="secret")
         self.open_add_new(wd)
         self.upload_photo(wd)
-        self.fill_primary_details(wd, PrimaryDetails(firstname="firstname12", middlename="middlename", lastname="lastname", nickname="nickname", title="tilte", company="company", address1="address1", telhome="telhome", mobile="mobile", telwork="telwork", fax="fax", email1="email1", email2="email2", email3="email3", homepage="www.homepage.com"))
-        self.birthday_date(wd)
-        self.aniversary_date(wd)
+        self.fill_primary_details(wd, PrimaryDetails(firstname="firstname12", middlename="middlename",
+                                                     lastname="lastname", nickname="nickname", title="tilte",
+                                                     company="company", address1="address1", telhome="telhome",
+                                                     mobile="mobile", telwork="telwork", fax="fax", email1="email1",
+                                                     email2="email2", email3="email3", homepage="www.homepage.com"))
+        self.set_birthday_date(wd)
+        self.set_aniversary_date(wd)
         self.select_group(wd)
         self.fill_secondary_details(wd, SecondaryDetails(address2="address2", telhome2="telhome2", notes="notes"))
         self.submit(wd)
         self.return_to_homepage(wd)
         self.logout(wd)
-
 
     def tearDown(self):
         self.wd.quit()
