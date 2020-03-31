@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
+from selenium.webdriver.support.ui import Select
 import unittest
 from primarydetails import PrimaryDetails
 from secondarydetails import SecondaryDetails
+import random
+from myrandomdata import MyDates
 
 
 class TestAddNewContact(unittest.TestCase):
@@ -48,14 +51,18 @@ class TestAddNewContact(unittest.TestCase):
         wd.find_element_by_name("notes").send_keys(secondarydetails.notes)
 
     def set_birthday_date(self, wd):
-        wd.find_element_by_xpath("//option[@value='12']").click()
-        wd.find_element_by_xpath("//option[@value='March']").click()
-        wd.find_element_by_name("byear").send_keys("1990")
+        wd.find_element_by_name("bday").click()
+        Select(wd.find_element_by_name("bday")).select_by_visible_text(random.choice(MyDates.day))
+        wd.find_element_by_name("bmonth").click()
+        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(random.choice(MyDates.month))
+        wd.find_element_by_name("byear").send_keys(random.choice(MyDates.year))
 
     def set_aniversary_date(self, wd):
-        wd.find_element_by_xpath("(//option[@value='18'])[2]").click()
-        wd.find_element_by_xpath("(//option[@value='December'])[2]").click()
-        wd.find_element_by_name("ayear").send_keys("2019")
+        wd.find_element_by_name("aday").click()
+        Select(wd.find_element_by_name("aday")).select_by_visible_text(random.choice(MyDates.day))
+        wd.find_element_by_name("amonth").click()
+        Select(wd.find_element_by_name("amonth")).select_by_visible_text(random.choice(MyDates.month))
+        wd.find_element_by_name("ayear").send_keys(random.choice(MyDates.year))
 
     def select_group(self, wd):
         wd.find_element_by_name("new_group").click()
@@ -76,15 +83,22 @@ class TestAddNewContact(unittest.TestCase):
         self.login(wd, username="admin", password="secret")
         self.open_add_new(wd)
         self.upload_photo(wd)
-        self.fill_primary_details(wd, PrimaryDetails(firstname="firstname12", middlename="middlename",
-                                                     lastname="lastname", nickname="nickname", title="tilte",
-                                                     company="company", address1="address1", telhome="telhome",
-                                                     mobile="mobile", telwork="telwork", fax="fax", email1="email1",
-                                                     email2="email2", email3="email3", homepage="www.homepage.com"))
+        self.fill_primary_details(wd, PrimaryDetails(firstname=random.choice(MyDates.name),
+                                                     middlename=random.choice(MyDates.name),
+                                                     lastname=random.choice(MyDates.lastname),
+                                                     nickname=random.choice(MyDates.nickname), title="tilte",
+                                                     company="company", address1="address1",
+                                                     telhome=random.choice(MyDates.phone),
+                                                     mobile=random.choice(MyDates.phone),
+                                                     telwork=random.choice(MyDates.phone),
+                                                     fax=random.choice(MyDates.phone), email1=random.choice(MyDates.email),
+                                                     email2=random.choice(MyDates.email), email3=random.choice(MyDates.email),
+                                                     homepage="www.homepage.com"))
         self.set_birthday_date(wd)
         self.set_aniversary_date(wd)
         self.select_group(wd)
-        self.fill_secondary_details(wd, SecondaryDetails(address2="address2", telhome2="telhome2", notes="notes"))
+        self.fill_secondary_details(wd, SecondaryDetails(address2="address2", telhome2=random.choice(MyDates.phone),
+                                                         notes="notes"))
         self.submit(wd)
         self.return_to_homepage(wd)
         self.logout(wd)
