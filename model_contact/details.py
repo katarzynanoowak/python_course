@@ -1,8 +1,8 @@
 
-class PrimaryDetails:
+class Details:
 
     def __init__(self, firstname, middlename, lastname, nickname, title, company, address1, telhome, mobile,
-                 telwork, fax, email1, email2, email3, homepage):
+                 telwork, fax, email1, email2, email3, homepage, address2, telhome2, notes):
         self.firstname = firstname
         self.middlename = middlename
         self.lastname = lastname
@@ -18,3 +18,6 @@ class PrimaryDetails:
         self.email2 = email2
         self.email3 = email3
         self.homepage = homepage
+        self.address2 = address2
+        self.telhome2 = telhome2
+        self.notes = notes
