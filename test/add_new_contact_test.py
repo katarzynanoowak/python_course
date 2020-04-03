@@ -14,8 +14,8 @@ def app(request):
 
 
 def test_add_new_contact(app):
-    app.login(username="admin", password="secret")
-    app.create_contact(Details(firstname="first name", middlename=random.choice(MyData.name),
+    app.session.login(username="admin", password="secret")
+    app.contact.create(Details(firstname="first name", middlename=random.choice(MyData.name),
                                     lastname=random.choice(MyData.lastname), nickname=random.choice(MyData.nickname),
                                     title="tilte", company="company", address1="address1",
                                     telhome=random.choice(MyData.phone), mobile=random.choice(MyData.phone),
@@ -23,4 +23,4 @@ def test_add_new_contact(app):
                                     email1=random.choice(MyData.email), email2=random.choice(MyData.email),
                                     email3=random.choice(MyData.email), homepage="www.homepage.com",
                                     address2="address2", telhome2=random.choice(MyData.phone), notes="notes"))
-    app.logout()
+    app.session.logout()
