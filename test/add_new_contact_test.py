@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import pytest
-from model_contact.details import Details
+from model.details import Details
 import random
-from model_contact.myrandomdata import MyData
-from fixture_contact.application import Application
+from model.myrandomdata import MyData
+from fixture.application import Application
 
 
 @pytest.fixture
