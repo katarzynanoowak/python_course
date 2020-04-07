@@ -1,16 +1,19 @@
 # Random data storage
 
-class MyData:
 
+class MyData:
     month = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER',
              'NOVEMBER', 'DECEMBER']
 
-    day = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'
-            '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']
+    amonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+              'November', 'December']
+
+    day = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+           '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']
 
     year = ['1996', '1995', '1994', '1993', '1992', '1991', '1990', '1989', '1998']
 
-    name = [ 'Ali', 'Beatriz', 'Charles', 'Diya', 'Eric', 'Fatima', 'Gabriel']
+    name = ['Ali', 'Beatriz', 'Charles', 'Diya', 'Eric', 'Fatima', 'Gabriel']
 
     lastname = ['Skinner', 'Benitez', 'Saunders', 'Baird', 'Barker', 'House', 'Fitzpatrick', 'Mayer']
 
