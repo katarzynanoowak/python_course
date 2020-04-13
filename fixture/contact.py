@@ -94,7 +94,8 @@ class ContactHelper:
 
     def open_contacts_page(self):
         wd = self.app.wd
-        wd.get("http://localhost/addressbook/addressbook/")
+        if not (wd.current_url.endswith("/addressbook/") and wd.find_element_by_id("MassCB").is_displayed):
+            wd.get("http://localhost/addressbook/addressbook/")
 
     def delete_first_contact(self):
         wd = self.app.wd
