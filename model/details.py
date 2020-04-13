@@ -1,8 +1,9 @@
 
 class Details:
 
-    def __init__(self, firstname, middlename, lastname, nickname, title, company, address1, telhome, mobile,
-                 telwork, fax, email1, email2, email3, homepage, address2, telhome2, notes):
+    def __init__(self, firstname=None, middlename=None, lastname=None, nickname=None, title=None, company=None,
+                 address1=None, telhome=None, mobile=None, telwork=None, fax=None, email1=None, email2=None, email3=None,
+                 homepage=None, address2=None, telhome2=None, notes=None):
         self.firstname = firstname
         self.middlename = middlename
         self.lastname = lastname

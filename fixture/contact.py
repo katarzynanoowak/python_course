@@ -1,7 +1,6 @@
 from selenium.webdriver.support.ui import Select
 import random
 from model.myrandomdata import MyData
-from model.addressbook_fields import Fields
 
 
 class ContactHelper:
@@ -19,26 +18,30 @@ class ContactHelper:
         self.upload_photo()
         self.set_dates()
         self.select_group()
-        wd.find_element_by_name("firstname").send_keys(details.firstname)
-        wd.find_element_by_name("middlename").send_keys(details.middlename)
-        wd.find_element_by_name("lastname").send_keys(details.lastname)
-        wd.find_element_by_name("nickname").send_keys(details.nickname)
-        wd.find_element_by_name("title").send_keys(details.title)
-        wd.find_element_by_name("company").send_keys(details.company)
-        wd.find_element_by_name("address").send_keys(details.address1)
-        wd.find_element_by_name("home").send_keys(details.telhome)
-        wd.find_element_by_name("mobile").send_keys(details.mobile)
-        wd.find_element_by_name("work").send_keys(details.telwork)
-        wd.find_element_by_name("fax").send_keys(details.fax)
-        wd.find_element_by_name("email").send_keys(details.email1)
-        wd.find_element_by_name("email2").send_keys(details.email2)
-        wd.find_element_by_name("email3").send_keys(details.email3)
-        wd.find_element_by_name("homepage").send_keys(details.homepage)
-        wd.find_element_by_name("address2").send_keys(details.address2)
-        wd.find_element_by_name("phone2").send_keys(details.telhome2)
-        wd.find_element_by_name("notes").send_keys(details.notes)
+        self.fill_contact_form(details)
         self.submit()
         self.return_to_homepage()
+
+    def fill_contact_form(self, details):
+        wd = self.app.wd
+        self.change_field_value("firstname", details.firstname)
+        self.change_field_value("middlename", details.middlename)
+        self.change_field_value("lastname", details.lastname)
+        self.change_field_value("nickname", details.nickname)
+        self.change_field_value("title", details.title)
+        self.change_field_value("company", details.company)
+        self.change_field_value("address", details.address1)
+        self.change_field_value("home", details.telhome)
+        self.change_field_value("mobile", details.mobile)
+        self.change_field_value("work", details.telwork)
+        self.change_field_value("fax", details.fax)
+        self.change_field_value("email", details.email1)
+        self.change_field_value("email2", details.email2)
+        self.change_field_value("email3", details.email3)
+        self.change_field_value("homepage", details.homepage)
+        self.change_field_value("address2", details.address2)
+        self.change_field_value("phone2", details.telhome2)
+        self.change_field_value("notes", details.notes)
 
     def upload_photo(self):
         wd = self.app.wd
@@ -97,40 +100,30 @@ class ContactHelper:
         wd = self.app.wd
         self.open_contacts_page()
         # select first contact
-        wd.find_element_by_xpath("//img[@alt='EDIT']").click()
+        self.select_first_contact()
         wd.find_element_by_xpath("(//input[@name='update'])[3]").click()
 
-    def clear_all_fields(self):
+    def select_first_contact(self):
         wd = self.app.wd
-        for x in Fields.fields:
-            wd.find_element_by_name(x).clear()
+        wd.find_element_by_xpath("//img[@alt='EDIT']").click()
 
-    def edit_first(self, details):
+    def count(self):
         wd = self.app.wd
         self.open_contacts_page()
-        # select edit option for first record on the list
-        wd.find_element_by_xpath("//img[@alt='EDIT']").click()
-        self.upload_new_photo()
-        self.edit_dates()
-        self.clear_all_fields()
-        # fill all fields with new data
-        wd.find_element_by_name("firstname").send_keys(details.firstname)
-        wd.find_element_by_name("middlename").send_keys(details.middlename)
-        wd.find_element_by_name("lastname").send_keys(details.lastname)
-        wd.find_element_by_name("nickname").send_keys(details.nickname)
-        wd.find_element_by_name("title").send_keys(details.title)
-        wd.find_element_by_name("company").send_keys(details.company)
-        wd.find_element_by_name("address").send_keys(details.address1)
-        wd.find_element_by_name("home").send_keys(details.telhome)
-        wd.find_element_by_name("mobile").send_keys(details.mobile)
-        wd.find_element_by_name("work").send_keys(details.telwork)
-        wd.find_element_by_name("fax").send_keys(details.fax)
-        wd.find_element_by_name("email").send_keys(details.email1)
-        wd.find_element_by_name("email2").send_keys(details.email2)
-        wd.find_element_by_name("email3").send_keys(details.email3)
-        wd.find_element_by_name("homepage").send_keys(details.homepage)
-        wd.find_element_by_name("address2").send_keys(details.address2)
-        wd.find_element_by_name("phone2").send_keys(details.telhome2)
-        wd.find_element_by_name("notes").send_keys(details.notes)
+        return len(wd.find_elements_by_name("selected[]"))
+
+    def change_field_value(self, field_name, text):
+        wd = self.app.wd
+        if text is not None:
+            wd.find_element_by_name(field_name).click()
+            wd.find_element_by_name(field_name).clear()
+            wd.find_element_by_name(field_name).send_keys(text)
+
+    def modify_first_contact(self, new_contact_data):
+        wd = self.app.wd
+        self.open_contacts_page()
+        self.select_first_contact()
+        self.fill_contact_form(new_contact_data)
+        # submit changes
         wd.find_element_by_name("update").click()
         self.return_to_homepage()
