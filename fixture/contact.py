@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import Select
 import random
 from model.myrandomdata import MyData
+from model.details import Details
 
 
 class ContactHelper:
@@ -128,3 +129,13 @@ class ContactHelper:
         # submit changes
         wd.find_element_by_name("update").click()
         self.return_to_homepage()
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.open_contacts_page()
+        contacts = []
+        for element in wd.find_elements_by_name("entry"):
+            text = element.text
+            id_contact = element.find_element_by_name("selected[]").get_attribute("value")
+            contacts.append(Details(lastname=text, id=id_contact))
+        return contacts
