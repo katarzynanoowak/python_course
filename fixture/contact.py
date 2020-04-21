@@ -22,6 +22,7 @@ class ContactHelper:
         self.fill_contact_form(details)
         self.submit()
         self.return_to_homepage()
+        self.contact_cache = None
 
     def fill_contact_form(self, details):
         wd = self.app.wd
@@ -104,6 +105,7 @@ class ContactHelper:
         # select first contact
         self.select_first_contact()
         wd.find_element_by_xpath("(//input[@name='update'])[3]").click()
+        self.contact_cache = None
 
     def select_first_contact(self):
         wd = self.app.wd
@@ -129,13 +131,17 @@ class ContactHelper:
         # submit changes
         wd.find_element_by_name("update").click()
         self.return_to_homepage()
+        self.contact_cache = None
+
+    contact_cache = None
 
     def get_contact_list(self):
-        wd = self.app.wd
-        self.open_contacts_page()
-        contacts = []
-        for element in wd.find_elements_by_name("entry"):
-            text = element.text
-            id_contact = element.find_element_by_name("selected[]").get_attribute("value")
-            contacts.append(Details(lastname=text, id=id_contact))
-        return contacts
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.open_contacts_page()
+            self.contact_cache = []
+            for element in wd.find_elements_by_name("entry"):
+                text = element.text
+                id_contact = element.find_element_by_name("selected[]").get_attribute("value")
+                self.contact_cache.append(Details(lastname=text, id=id_contact))
+        return list(self.contact_cache)
