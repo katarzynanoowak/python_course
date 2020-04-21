@@ -105,7 +105,6 @@ class ContactHelper:
     def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.open_contacts_page()
-        # select first contact
         self.select_contact_by_index(index)
         wd.find_element_by_xpath("(//input[@name='update'])[3]").click()
         self.contact_cache = None
