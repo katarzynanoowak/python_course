@@ -3,7 +3,6 @@ import random
 from model.myrandomdata import MyData
 from model.details import Details
 import re
-from random import randrange
 
 
 class ContactHelper:
@@ -203,4 +202,3 @@ class ContactHelper:
         telwork = re.search("W: (.*)", text).group(1)
         telhome2 = re.search("P: (.*)", text).group(1)
         return Details(telhome=telhome, mobile=mobile, telwork=telwork, telhome2=telhome2)
-

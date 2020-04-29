@@ -30,7 +30,8 @@ class Details:
         self.all_emails_from_home_page = all_emails_from_home_page
 
     def __repr__(self):
-        return "%s:%s" % (self.id, self.lastname)
+        return "%s:%s;%s;%s;%s;&s;%s;%s;%s" % (self.id, self.lastname, self.firstname, self.address1, self.telhome,
+                                             self.email1, self.homepage, self.notes)
 
     def __eq__(self, other):
         return (self.id is None or other.id is None or self.id == other.id) and (self.lastname == other.lastname or
