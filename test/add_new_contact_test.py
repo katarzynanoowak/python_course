@@ -2,7 +2,8 @@
 from model.details import Details
 
 
-def test_add_new_contact(app, details):
+def test_add_new_contact(app, json_contacts):
+    details = json_contacts
     old_contacts = app.contact.get_contact_list()
     app.contact.create(details)
     new_contacts = app.contact.get_contact_list()
