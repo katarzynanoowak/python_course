@@ -13,7 +13,7 @@ except getopt.GetoptError as err:
     getopt.usage()
     sys.exit(2)
 
-n = 5
+n = 2
 f = "data/contacts.json"
 
 for o, a in opts:
@@ -24,7 +24,7 @@ for o, a in opts:
 
 
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*50
+    symbols = string.ascii_letters + string.digits + " "*50
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 

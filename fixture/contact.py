@@ -3,6 +3,7 @@ import random
 from model.myrandomdata import MyData
 from model.details import Details
 import re
+from selenium.webdriver.common.keys import Keys
 
 
 class ContactHelper:
@@ -202,3 +203,26 @@ class ContactHelper:
         telwork = re.search("W: (.*)", text).group(1)
         telhome2 = re.search("P: (.*)", text).group(1)
         return Details(telhome=telhome, mobile=mobile, telwork=telwork, telhome2=telhome2)
+
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[id='%s']" % id).click()
+
+    def modify_contact_by_id(self, id, new_contact_data):
+        wd = self.app.wd
+        self.open_contacts_page()
+        self.select_contact_by_id(id)
+        wd.find_element_by_xpath('//img[@alt="EDIT"]').click()
+        self.fill_contact_form(new_contact_data)
+        # submit changes
+        wd.find_element_by_name("update").click()
+        self.return_to_homepage()
+        self.contact_cache = None
+
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        self.select_contact_by_id(id)
+        wd.find_element_by_css_selector('input[value="DELETE"]').click()
+        wd.switch_to.alert.accept()
+        self.contact_cache = None
