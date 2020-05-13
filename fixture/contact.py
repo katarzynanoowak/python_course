@@ -86,7 +86,8 @@ class ContactHelper:
     def select_group(self):
         wd = self.app.wd
         wd.find_element_by_name("new_group").click()
-        wd.find_element_by_xpath("//option[@value='[none]']").click()
+        # wd.find_element_by_xpath("//option[@value='[none]']").click()
+        wd.find_element_by_xpath("//option[@value='284']").click()
 
     def submit(self):
         wd = self.app.wd
@@ -226,3 +227,20 @@ class ContactHelper:
         wd.find_element_by_css_selector('input[value="DELETE"]').click()
         wd.switch_to.alert.accept()
         self.contact_cache = None
+
+    def add_contact_to_group(self, id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        self.select_contact_by_id(id)
+        wd.find_element_by_css_selector('select[name="to_group"]').click()
+        wd.find_element_by_xpath("//*[@id='content']/form[2]/div[4]/select/option[19]").click()
+        # wd.find_element_by_css_selector('option[value="300"]').click()
+        wd.find_element_by_css_selector('input[name="add"]').click()
+
+    def delete_contact_from_group(self, id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        wd.find_element_by_css_selector('select[name="group"]').click()
+        wd.find_element_by_css_selector('option[value="300"]').click()
+        self.select_contact_by_id(id)
+        wd.find_element_by_css_selector('input[name="remove"]').click()
