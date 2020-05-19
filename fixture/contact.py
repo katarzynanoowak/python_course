@@ -3,7 +3,6 @@ import random
 from model.myrandomdata import MyData
 from model.details import Details
 import re
-from selenium.webdriver.common.keys import Keys
 
 
 class ContactHelper:
@@ -228,19 +227,22 @@ class ContactHelper:
         wd.switch_to.alert.accept()
         self.contact_cache = None
 
-    def add_contact_to_group(self, id):
+    def add_contact_to_group(self, id, id_g):
         wd = self.app.wd
         self.open_contacts_page()
         self.select_contact_by_id(id)
-        wd.find_element_by_css_selector('select[name="to_group"]').click()
-        wd.find_element_by_xpath("//*[@id='content']/form[2]/div[4]/select/option[19]").click()
-        # wd.find_element_by_css_selector('option[value="300"]').click()
-        wd.find_element_by_css_selector('input[name="add"]').click()
+        self.select_group_by_id(id_g)
 
-    def delete_contact_from_group(self, id):
+    def delete_contact_from_group(self, id, id_g):
         wd = self.app.wd
         self.open_contacts_page()
         wd.find_element_by_css_selector('select[name="group"]').click()
-        wd.find_element_by_css_selector('option[value="300"]').click()
+        wd.find_element_by_css_selector("option[value='%s']" % id_g).click()
         self.select_contact_by_id(id)
         wd.find_element_by_css_selector('input[name="remove"]').click()
+
+    def select_group_by_id(self, id_g):
+        wd = self.app.wd
+        wd.find_element_by_css_selector('select[name="to_group"]').click()
+        wd.find_element_by_css_selector("option[value='%s']" % id_g).click()
+        wd.find_element_by_css_selector('input[name="add"]').click()
